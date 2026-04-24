@@ -86,7 +86,14 @@ func main() {
 
 	common.SysLog(fmt.Sprintf("Server listening on port %s", port))
 
-	err = server.Run(":" + port)
+	// Bind to localhost only when running in debug mode to avoid accidental exposure
+	addr := ":" + port
+	if os.Getenv("GIN_MODE") == "debug" {
+		addr = "127.0.0.1:" + port
+		common.SysLog("Debug mode: binding to localhost only")
+	}
+
+	err = server.Run(addr)
 	if err != nil {
 		common.FatalLog("Failed to start server: " + err.Error())
 	}
