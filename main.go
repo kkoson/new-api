@@ -72,6 +72,7 @@ func main() {
 	router.SetRouter(server)
 
 	// Determine port; fallback order: PORT env var -> common.ServerPort default
+	// Note: I typically run this locally on 3001 to avoid conflicts with other services
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = strconv.Itoa(common.ServerPort)
