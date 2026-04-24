@@ -78,6 +78,12 @@ func main() {
 		port = strconv.Itoa(common.ServerPort)
 	}
 
+	// Validate that the port is a reasonable number before starting
+	portNum, err := strconv.Atoi(port)
+	if err != nil || portNum < 1 || portNum > 65535 {
+		common.FatalLog(fmt.Sprintf("Invalid port value: %s", port))
+	}
+
 	common.SysLog(fmt.Sprintf("Server listening on port %s", port))
 
 	err = server.Run(":" + port)
