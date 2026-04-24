@@ -54,7 +54,10 @@ func main() {
 	}
 
 	// Set Gin mode based on environment
-	if os.Getenv("GIN_MODE") != "debug" {
+	// Default to release mode for production safety; set GIN_MODE=debug to enable debug logging
+	if os.Getenv("GIN_MODE") == "debug" {
+		gin.SetMode(gin.DebugMode)
+	} else {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
