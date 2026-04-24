@@ -57,6 +57,7 @@ func main() {
 	// Default to release mode for production safety; set GIN_MODE=debug to enable debug logging
 	if os.Getenv("GIN_MODE") == "debug" {
 		gin.SetMode(gin.DebugMode)
+		common.SysLog("Running in DEBUG mode - do not use in production")
 	} else {
 		gin.SetMode(gin.ReleaseMode)
 	}
@@ -70,7 +71,7 @@ func main() {
 	// Register all routes
 	router.SetRouter(server)
 
-	// Determine port
+	// Determine port; fallback order: PORT env var -> common.ServerPort default
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = strconv.Itoa(common.ServerPort)
